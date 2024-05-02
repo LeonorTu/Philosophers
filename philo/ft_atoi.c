@@ -6,15 +6,20 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 15:19:50 by jtu               #+#    #+#             */
-/*   Updated: 2024/04/30 16:42:20 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/02 13:47:34 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+static int	ft_isdigit(char c)
+{
+	return (c >= '0' && c <= '9');
+}
+
 static int	convert_num(const char *str, long value, int sign)
 {
-	while (*str >= 48 && *str <= 57)
+	while (*str >= '0' && *str <= '9')
 	{
 		if (value > LONG_MAX / 10)
 		{
@@ -34,6 +39,8 @@ static int	convert_num(const char *str, long value, int sign)
 		value += *str - '0';
 		str++;
 	}
+	if (*str && !ft_isdigit(*str))
+		return (-1);
 	return (value);
 }
 

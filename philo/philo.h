@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:48 by jtu               #+#    #+#             */
-/*   Updated: 2024/04/29 15:46:31 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/02 18:06:26 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # include <time.h>
 # include <limits.h>
 
+typedef struct s_philo
+{
+	int			id;
+	pthread_t	thread;
+}	t_philo;
+
 typedef struct s_table
 {
 	int	id;
@@ -29,13 +35,12 @@ typedef struct s_table
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	eating_times;
+	t_philo	*philos;
 }	t_table;
 
-typedef struct s_philo
-{
-	int	id;
-}	t_philo;
+
 
 int	ft_atoi(const char *str);
+int	err_msg(char *msg);
 
 #endif
