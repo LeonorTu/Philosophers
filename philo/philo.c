@@ -6,12 +6,11 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/02 18:18:03 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/08 14:22:02 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 int	err_msg(char *msg)
 {
@@ -47,7 +46,6 @@ void	init_table(char **argv, t_table *table)
 	printf("%d", table->num_philo);
 }
 
-
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
@@ -55,9 +53,9 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	while ()
 	{
-		eat();
-		think();
-		sleep();
+		eat(philo);
+		think(philo);
+		sleep(philo);
 	}
 	return (arg);
 }
@@ -95,6 +93,9 @@ int	main(int argc, char *argv[])
 	}
 	if (check_args(argv) == -1)
 		return (EXIT_FAILURE);
+	pthread_mutex_init(&mutex, NULL);
+	pthread_mutex_lock(mutex);
+	pthread_mutex_unlock(mutex);
 	init_table(argv, &table);
 	create_threads(&table);
 }
