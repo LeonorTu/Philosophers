@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:48 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/02 18:06:26 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/09 16:18:41 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,12 @@ typedef struct s_table
 {
 	int	id;
 	int	num_philo;
+	pthread_mutex_t	**fork;
 	int	time_to_die;
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	eating_times;
-	t_philo	*philos;
+	t_philo	*philo;
 }	t_table;
 
 

@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/08 14:22:02 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/09 16:20:43 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,9 @@ void	init_table(char **argv, t_table *table)
 		table->eating_times = ft_atoi(argv[5]);
 	else
 		table->eating_times = -1;
-	printf("%d", table->num_philo);
+	table->philo = malloc(sizeof(t_philo) * table->num_philo);
+	table->fork = malloc(sizeof(pthread_mutex_t *) * table->num_philo);
+	//printf("%d", table->num_philo);
 }
 
 void	*philo_routine(void *arg)
@@ -51,7 +53,7 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	while ()
+	while (1)
 	{
 		eat(philo);
 		think(philo);
@@ -67,23 +69,36 @@ int	create_threads(t_table *table)
 	i = 0;
 	while (i < table->num_philo)
 	{
-		if (pthread_create(&table->philos[i].thread, NULL, philo_routine, NULL) != 0)
+		if (pthread_create(&(table->philo[i].thread), NULL, philo_routine, NULL) != 0)
 			return (err_msg("Thread creation fail"));
 		i++;
 	}
 	i = 0;
 	while (i < table->num_philo)
 	{
-		if (pthread_join(&table->philos[i].thread, NULL) != 0)
+		if (pthread_join(table->philo[i].thread, NULL) != 0)
 			return (err_msg("Thread creation fail"));
 		i++;
 	}
 	return (0);
 }
 
+void	init_forks(t_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->num_philo)
+	{
+		pthread_mutex_init(table->fork[i], NULL);
+		i++;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	t_table	table;
+	pthread_mutex_t	mutex;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -94,8 +109,9 @@ int	main(int argc, char *argv[])
 	if (check_args(argv) == -1)
 		return (EXIT_FAILURE);
 	pthread_mutex_init(&mutex, NULL);
-	pthread_mutex_lock(mutex);
-	pthread_mutex_unlock(mutex);
+	pthread_mutex_lock(&mutex);
+	pthread_mutex_unlock(&mutex);
 	init_table(argv, &table);
 	create_threads(&table);
+	return (0);
 }
