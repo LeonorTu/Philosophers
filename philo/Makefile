@@ -6,14 +6,15 @@
 #    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/05/02 13:41:34 by jtu              ###   ########.fr        #
+#    Updated: 2024/05/10 16:46:21 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
 SRCS = philo.c \
-		ft_atoi.c
+		ft_atoi.c \
+		routine.c
 
 CFLAGS = -Wall -Wextra -Werror -g
 

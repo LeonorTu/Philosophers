@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/09 16:20:43 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/10 16:45:51 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		eat(philo);
-		think(philo);
-		sleep(philo);
+		ft_eat(philo);
+		ft_think(philo);
+		ft_sleep(philo);
 	}
 	return (arg);
 }
@@ -69,7 +69,7 @@ int	create_threads(t_table *table)
 	i = 0;
 	while (i < table->num_philo)
 	{
-		if (pthread_create(&(table->philo[i].thread), NULL, philo_routine, NULL) != 0)
+		if (pthread_create(&(table->philo[i].thread), NULL, &philo_routine, &table->philo[i]) != 0)
 			return (err_msg("Thread creation fail"));
 		i++;
 	}
@@ -90,7 +90,7 @@ void	init_forks(t_table *table)
 	i = 0;
 	while (i < table->num_philo)
 	{
-		pthread_mutex_init(table->fork[i], NULL);
+		pthread_mutex_init(&table->fork[i], NULL);
 		i++;
 	}
 }
