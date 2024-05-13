@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/10 16:45:51 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/13 15:56:20 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ void	init_table(char **argv, t_table *table)
 		table->eating_times = ft_atoi(argv[5]);
 	else
 		table->eating_times = -1;
-	table->philo = malloc(sizeof(t_philo) * table->num_philo);
-	table->fork = malloc(sizeof(pthread_mutex_t *) * table->num_philo);
 	//printf("%d", table->num_philo);
 }
 
@@ -62,35 +60,53 @@ void	*philo_routine(void *arg)
 	return (arg);
 }
 
-int	create_threads(t_table *table)
+int	create_threads(t_philo *philo)
 {
 	int	i;
 
 	i = 0;
-	while (i < table->num_philo)
+	while (i < philo->table->num_philo)
 	{
-		if (pthread_create(&(table->philo[i].thread), NULL, &philo_routine, &table->philo[i]) != 0)
+		if (pthread_create(&(philo[i].thread), NULL, &philo_routine, &philo[i]) != 0)
 			return (err_msg("Thread creation fail"));
 		i++;
 	}
 	i = 0;
-	while (i < table->num_philo)
+	while (i < philo->table->num_philo)
 	{
-		if (pthread_join(table->philo[i].thread, NULL) != 0)
+		if (pthread_join(philo[i].thread, NULL) != 0)
 			return (err_msg("Thread creation fail"));
 		i++;
 	}
 	return (0);
 }
 
-void	init_forks(t_table *table)
+void	init_forks(pthread_mutex_t *fork, t_table *table)
 {
 	int	i;
 
 	i = 0;
+	fork = malloc(sizeof(pthread_mutex_t *) * table->num_philo);
 	while (i < table->num_philo)
 	{
-		pthread_mutex_init(&table->fork[i], NULL);
+		pthread_mutex_init(&fork[i], NULL);
+		i++;
+	}
+}
+
+void	init_philos(t_philo *philo, pthread_mutex_t	*fork, t_table *table)
+{
+	int	i;
+
+	i = 0;
+	philo = malloc(sizeof(t_philo) * table->num_philo);
+	while (i < table->num_philo)
+	{
+		philo[i].id = i + 1;
+		philo[i].meals_eaten = 0;
+		philo->table = table;
+		philo[i].fork_right = &fork[i + 1];
+		philo[i].fork_left = &fork[(i + 2) % table->num_philo];
 		i++;
 	}
 }
@@ -98,7 +114,8 @@ void	init_forks(t_table *table)
 int	main(int argc, char *argv[])
 {
 	t_table	table;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	fork[200];
+	t_philo	philo[200];
 
 	if (argc != 5 && argc != 6)
 	{
@@ -108,10 +125,9 @@ int	main(int argc, char *argv[])
 	}
 	if (check_args(argv) == -1)
 		return (EXIT_FAILURE);
-	pthread_mutex_init(&mutex, NULL);
-	pthread_mutex_lock(&mutex);
-	pthread_mutex_unlock(&mutex);
 	init_table(argv, &table);
-	create_threads(&table);
+	init_forks(fork, &table);
+	init_philos(philo, fork, &table);
+	create_threads(philo);
 	return (0);
 }
