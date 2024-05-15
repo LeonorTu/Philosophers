@@ -6,11 +6,39 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:21:17 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/13 15:49:24 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/15 16:03:59 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	check_end(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->table->end_lock);
+	if (philo->table->end == 1)
+	{
+		pthread_mutex_unlock(&philo->table->end_lock);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->table->end_lock);
+	return (0);
+}
+
+void	*philo_routine(void *arg)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		ft_think(philo);
+	while (!check_end(philo))
+	{
+		ft_eat(philo);
+		ft_think(philo);
+		ft_sleep(philo);
+	}
+	return (arg);
+}
 
 size_t	get_current_time(void)
 {
@@ -25,17 +53,28 @@ void	print_msg(t_philo *philo, char *msg)
 {
 	size_t	time;
 
-	time = get_current_time();
+	pthread_mutex_lock(&philo->table->print_lock);
+	time = get_current_time() - philo->start_time;
 	printf("%zu %d %s\n", time, philo->id, msg);
+	pthread_mutex_unlock(&philo->table->print_lock);
 }
 
 void	ft_eat(t_philo *philo)
 {
+	int	eating;
+
+	eating = 0;
 	pthread_mutex_lock(philo->fork_right);
 	print_msg(philo, "has taken a fork");
-	pthread_mutex_lock(philo->fork_left);
+	if (pthread_mutex_lock(philo->fork_left) != 0)
+	{
+		printf("philo 5");
+		ft_think(philo);
+		return ;
+	}
 	print_msg(philo, "has taken a fork");
 	print_msg(philo, "is eating");
+	philo->last_meal = get_current_time();
 	philo->meals_eaten++;
 	ft_usleep(philo->table->time_to_eat);
 	pthread_mutex_unlock(philo->fork_right);
@@ -60,5 +99,5 @@ int	ft_usleep(size_t sleep)
 void	ft_sleep(t_philo *philo)
 {
 	print_msg(philo, "is sleeping");
-	ft_usleep(philo->table->time_to_sleep);  //improve
+	ft_usleep(philo->table->time_to_sleep);
 }

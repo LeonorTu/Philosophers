@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:48 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/13 15:46:35 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/15 16:03:52 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_philo
 {
 	int			id;
 	int			meals_eaten;
+	size_t		start_time;
+	size_t		last_meal;
 	t_table		*table;
 	pthread_t	thread;
 	pthread_mutex_t	*fork_right;
@@ -35,19 +37,24 @@ typedef struct s_philo
 
 typedef struct s_table
 {
-	int	id;
 	int	num_philo;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	eating_times;
+	size_t	time_to_die;
+	size_t	time_to_eat;
+	size_t	time_to_sleep;
+	int	must_eat;
+	int	end;
+	pthread_mutex_t	end_lock;
+	pthread_mutex_t	print_lock;
 }	t_table;
 
-int	ft_atoi(const char *str);
-int	err_msg(char *msg);
+int		ft_atoi(const char *str);
+int		err_msg(char *msg);
+void	print_msg(t_philo *philo, char *msg);
+size_t	get_current_time(void);
+void	*philo_routine(void *arg);
 void	ft_eat(t_philo *philo);
 void	ft_think(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-int	ft_usleep(size_t sleep);
+int		ft_usleep(size_t sleep);
 
 #endif
