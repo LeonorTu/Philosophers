@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/15 16:04:17 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/16 18:34:43 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,63 +46,8 @@ void	init_table(char **argv, t_table *table)
 	table->end = 0;
 	pthread_mutex_init(&table->end_lock, NULL);
 	pthread_mutex_init(&table->print_lock, NULL);
+	pthread_mutex_init(&table->meal_lock, NULL);
 	// printf("%d", table->num_philo);
-}
-
-int	philo_dead(t_philo *philo)
-{
-	int	i;
-
-	i = 0;
-	while (i < philo->table->num_philo)
-	{
-		if (get_current_time() - philo[i].last_meal >= philo->table->time_to_die)
-		{
-			print_msg(&philo[i], "died");
-			pthread_mutex_lock(&philo->table->end_lock);
-			philo->table->end = 1;
-			pthread_mutex_unlock(&philo->table->end_lock);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	philo_finished(t_philo *philo)
-{
-	int	i;
-	int	finished;
-
-	i = 0;
-	finished = 0;
-	if (philo->table->must_eat < 0)
-		return (-1);
-	while (i < philo->table->num_philo)
-	{
-		if (philo[i].meals_eaten >= philo->table->must_eat)
-			finished++;
-		i++;
-	}
-	if (finished == philo->table->num_philo)
-	{
-		pthread_mutex_lock(&philo->table->end_lock);
-		philo->table->end = 1;
-		pthread_mutex_unlock(&philo->table->end_lock);
-		return (1);
-	}
-	return (0);
-}
-
-void	*table_monitor(void *arg)
-{
-	t_philo	*philo;
-
-	philo = (t_philo *)arg;
-	while (1)
-		if (philo_dead(philo) == 1 || philo_finished(philo) == 1)
-			break;
-	return (arg);
 }
 
 int	create_threads(t_philo *philo)
