@@ -6,7 +6,7 @@
 #    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/05/17 16:13:38 by jtu              ###   ########.fr        #
+#    Updated: 2024/05/17 20:41:03 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,19 @@ SRCS = philo.c \
 
 CFLAGS = -Wall -Wextra -Werror
 
+OBJS = ${SRCS:.c=.o}
+
 all: ${NAME}
 
-${NAME}: ${SRCS}
+%.o: %.c
+	@cc $(CFLAGS) -c $< -o $@
+
+${NAME}: ${OBJS}
 	@cc $(CFLAGS) $^ -o $@
 	@echo "---------Philosopher Ready---------"
 
 clean:
+	@rm -f ${OBJS}
 	@rm -rf *.dSYM
 	@rm -rf .vscode
 	@rm -rf .DS_Store

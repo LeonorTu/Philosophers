@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:08:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 16:11:11 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 20:33:29 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	err_msg(char *msg)
 {
 	printf("%s", msg);
-	return (-1);
+	return (1);
 }
 
 void	print_msg(t_philo *philo, char *msg)

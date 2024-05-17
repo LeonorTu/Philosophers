@@ -6,13 +6,13 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:54:18 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 16:10:00 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 20:34:04 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	init_table(char **argv, t_table *table)
+int	init_table(char **argv, t_table *table)
 {
 	table->num_philo = ft_atoi(argv[1]);
 	table->time_to_die = ft_atoi(argv[2]);
@@ -23,23 +23,32 @@ void	init_table(char **argv, t_table *table)
 	else
 		table->must_eat = -1;
 	table->end = 0;
-	pthread_mutex_init(&table->end_lock, NULL);
-	pthread_mutex_init(&table->print_lock, NULL);
-	pthread_mutex_init(&table->meal_lock, NULL);
+	if (pthread_mutex_init(&table->end_lock, NULL))
+		return (err_msg("Mutex init fail"));
+	if (pthread_mutex_init(&table->print_lock, NULL))
+		return (err_msg("Mutex init fail"));
+	if (pthread_mutex_init(&table->meal_lock, NULL))
+		return (err_msg("Mutex init fail"));
 	table->fork = malloc(sizeof(pthread_mutex_t) * table->num_philo);
-	init_forks(table);
+	if (!table->fork)
+		return (err_msg("Malloc fail"));
+	if (init_forks(table))
+		return (1);
+	return (0);
 }
 
-void	init_forks(t_table *table)
+int	init_forks(t_table *table)
 {
 	int	i;
 
 	i = 0;
 	while (i < table->num_philo)
 	{
-		pthread_mutex_init(&table->fork[i], NULL);
+		if (pthread_mutex_init(&table->fork[i], NULL))
+			return (err_msg("Mutex init fail"));
 		i++;
 	}
+	return (0);
 }
 
 void	init_philos(t_philo *philo, t_table *table)

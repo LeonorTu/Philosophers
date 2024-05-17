@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 16:11:20 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 20:17:27 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	create_threads(t_philo *philo)
 
 int	main(int argc, char *argv[])
 {
-	t_table			table;
-	t_philo			*philo;
+	t_table	table;
+	t_philo	*philo;
 
 	if (argc != 5 && argc != 6)
 	{
@@ -67,12 +67,16 @@ int	main(int argc, char *argv[])
 		[number_of_times_each_philosopher_must_eat] \n");
 		return (EXIT_FAILURE);
 	}
-	if (check_args(argv) == -1)
+	if (check_args(argv))
 		return (EXIT_FAILURE);
-	init_table(argv, &table);
+	if (init_table(argv, &table))
+		return (EXIT_FAILURE);
 	philo = malloc(sizeof(t_philo) * table.num_philo);
+	if (!philo)
+		return (err_msg("Malloc fail"));
 	init_philos(philo, &table);
-	create_threads(philo);
+	if (create_threads(philo))
+		return (EXIT_FAILURE);
 	clean(philo);
 	return (0);
 }
