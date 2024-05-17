@@ -6,11 +6,17 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:08:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/16 18:43:56 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 16:11:11 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	err_msg(char *msg)
+{
+	printf("%s", msg);
+	return (-1);
+}
 
 void	print_msg(t_philo *philo, char *msg)
 {
@@ -40,4 +46,21 @@ int	ft_usleep(size_t sleep)
 	while ((get_current_time() - start) < sleep)
 		usleep(500);
 	return (0);
+}
+
+void	clean(t_philo *philo)
+{
+	int	i;
+
+	pthread_mutex_destroy(&philo->table->end_lock);
+	pthread_mutex_destroy(&philo->table->print_lock);
+	pthread_mutex_destroy(&philo->table->meal_lock);
+	i = 0;
+	while (i < philo->table->num_philo)
+	{
+		pthread_mutex_destroy(&philo->table->fork[i]);
+		i++;
+	}
+	free(philo->table->fork);
+	free(philo);
 }

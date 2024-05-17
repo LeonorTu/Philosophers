@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:21:17 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/16 18:35:07 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 16:00:07 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 == 1)
+	{
 		ft_think(philo);
+		ft_usleep(philo->table->time_to_sleep - 2);
+	}
 	while (!check_end(philo))
 	{
 		if (ft_eat(philo))
@@ -36,7 +39,6 @@ int	ft_eat(t_philo *philo)
 	eating = 0;
 	pthread_mutex_lock(philo->fork_right);
 	print_msg(philo, "has taken a fork");
-	// p->r_fork = 1;
 	if (philo->table->num_philo == 1)
 	{
 		pthread_mutex_unlock(philo->fork_right);
@@ -55,13 +57,6 @@ int	ft_eat(t_philo *philo)
 	return (0);
 }
 
-// void fork_drop(mutex)
-// {
-// 	if (p->r_fork == 1)
-// 		unlock()fork_right
-// 		p->r_forl = 0;
-
-// }
 void	ft_think(t_philo *philo)
 {
 	print_msg(philo, "is thinking");

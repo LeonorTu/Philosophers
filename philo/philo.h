@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:48 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/16 18:34:16 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 16:11:16 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,33 @@ typedef struct s_table	t_table;
 
 typedef struct s_philo
 {
-	int			id;
-	int			meals_eaten;
-	size_t		start_time;
-	size_t		last_meal;
-	t_table		*table;
-	pthread_t	thread;
+	int				id;
+	int				meals_eaten;
+	size_t			start_time;
+	size_t			last_meal;
+	t_table			*table;
+	pthread_t		thread;
 	pthread_mutex_t	*fork_right;
 	pthread_mutex_t	*fork_left;
 }	t_philo;
 
 typedef struct s_table
 {
-	int	num_philo;
-	size_t	time_to_die;
-	size_t	time_to_eat;
-	size_t	time_to_sleep;
-	int	must_eat;
-	int	end;
+	int				num_philo;
+	size_t			time_to_die;
+	size_t			time_to_eat;
+	size_t			time_to_sleep;
+	int				must_eat;
+	int				end;
 	pthread_mutex_t	end_lock;
 	pthread_mutex_t	print_lock;
 	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	*fork;
 }	t_table;
 
+void	init_table(char **argv, t_table *table);
+void	init_forks(t_table *table);
+void	init_philos(t_philo *philo, t_table *table);
 int		ft_atoi(const char *str);
 int		err_msg(char *msg);
 void	print_msg(t_philo *philo, char *msg);
@@ -59,5 +63,6 @@ void	ft_think(t_philo *philo);
 void	ft_sleep(t_philo *philo);
 int		ft_usleep(size_t sleep);
 int		check_end(t_philo *philo);
+void	clean(t_philo *philo);
 
 #endif

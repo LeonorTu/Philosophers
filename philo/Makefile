@@ -6,7 +6,7 @@
 #    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/05/16 16:18:57 by jtu              ###   ########.fr        #
+#    Updated: 2024/05/17 16:13:38 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,10 @@ SRCS = philo.c \
 		ft_atoi.c \
 		routine.c \
 		monitor.c \
-		utils.c
+		utils.c \
+		init.c
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror
 
 all: ${NAME}
 
