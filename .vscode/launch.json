@@ -6,7 +6,7 @@
 			"request": "launch",
 			"name": "(lldb) philo bonus",
 			"program": "${workspaceFolder}/philo_bonus/philo_bonus",
-			"args": ["6", "210", "100", "100", "10"],
+			"args": ["4", "310", "200", "100"],
 			"cwd": "${workspaceFolder}",
 			"preLaunchTask": "make philo_bonus",
 		},

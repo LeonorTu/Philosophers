@@ -6,18 +6,19 @@
 #    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/05/17 20:41:03 by jtu              ###   ########.fr        #
+#    Updated: 2024/05/19 16:35:28 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRCS = philo.c \
-		ft_atoi.c \
-		routine.c \
-		monitor.c \
-		utils.c \
-		init.c
+SRCS = src/philo.c \
+		src/ft_atoi.c \
+		src/routine.c \
+		src/monitor.c \
+		src/utils.c \
+		src/init.c \
+		src/clean.c
 
 CFLAGS = -Wall -Wextra -Werror
 

@@ -6,14 +6,17 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:45 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 20:17:27 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/19 17:12:34 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
-int	check_args(char **argv)
+int	check_args(int argc, char **argv)
 {
+	if (argc != 5 && argc != 6)
+		return (err_msg("Example: ./philo_bonus <philo_count> <time_to_die> "
+				"<time_to_eat> <time_to_sleep> [times_each_must_eat]\n"));
 	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[1]) > INT_MAX)
 		return (err_msg("Invalid number of philosophers"));
 	if (ft_atoi(argv[2]) <= 0)
@@ -59,24 +62,22 @@ int	main(int argc, char *argv[])
 	t_table	table;
 	t_philo	*philo;
 
-	if (argc != 5 && argc != 6)
-	{
-		printf("Please give 5 or 6 arguments! Example: \
-		./philo number_of_philosophers time_to_die \
-		time_to_eat time_to_sleep \
-		[number_of_times_each_philosopher_must_eat] \n");
-		return (EXIT_FAILURE);
-	}
-	if (check_args(argv))
+	if (check_args(argc, argv))
 		return (EXIT_FAILURE);
 	if (init_table(argv, &table))
 		return (EXIT_FAILURE);
 	philo = malloc(sizeof(t_philo) * table.num_philo);
 	if (!philo)
+	{
+		clean_table(&table);
 		return (err_msg("Malloc fail"));
+	}
 	init_philos(philo, &table);
 	if (create_threads(philo))
+	{
+		clean(philo);
 		return (EXIT_FAILURE);
+	}
 	clean(philo);
 	return (0);
 }

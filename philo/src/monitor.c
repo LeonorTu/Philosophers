@@ -6,11 +6,11 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:03:04 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 15:51:31 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/19 16:51:11 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
 int	philo_dead(t_philo *philo)
 {
@@ -41,10 +41,10 @@ int	philo_finished(t_philo *philo)
 	int	i;
 	int	finished;
 
-	i = 0;
 	finished = 0;
-	if (philo->table->must_eat < 0)
+	if (philo->table->must_eat == -1)
 		return (-1);
+	i = 0;
 	while (i < philo->table->num_philo)
 	{
 		pthread_mutex_lock(&philo->table->meal_lock);
@@ -53,7 +53,7 @@ int	philo_finished(t_philo *philo)
 		pthread_mutex_unlock(&philo->table->meal_lock);
 		i++;
 	}
-	if (finished == philo->table->num_philo)
+	if (finished == philo->table->num_philo || philo->table->must_eat == 0)
 	{
 		pthread_mutex_lock(&philo->table->end_lock);
 		philo->table->end = 1;

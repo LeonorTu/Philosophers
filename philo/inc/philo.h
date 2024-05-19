@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:48 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 20:30:19 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/19 17:10:10 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ void	*table_monitor(void *arg);
 int		ft_eat(t_philo *philo);
 void	ft_think(t_philo *philo);
 void	ft_sleep(t_philo *philo);
-int		ft_usleep(size_t sleep);
+int		ft_usleep(t_philo *philo, size_t sleep);
 int		check_end(t_philo *philo);
 
+void	clean_table(t_table *table);
 void	clean(t_philo *philo);
 
 #endif

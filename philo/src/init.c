@@ -6,11 +6,11 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:54:18 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 20:34:04 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/17 20:44:30 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../inc/philo.h"
 
 int	init_table(char **argv, t_table *table)
 {
