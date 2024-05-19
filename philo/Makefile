@@ -6,7 +6,7 @@
 #    By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/02 11:18:34 by jtu               #+#    #+#              #
-#    Updated: 2024/05/19 16:35:28 by jtu              ###   ########.fr        #
+#    Updated: 2024/05/19 17:16:56 by jtu              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS = src/philo.c \
 		src/init.c \
 		src/clean.c
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 
 OBJS = ${SRCS:.c=.o}
 

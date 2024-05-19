@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:16:31 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/19 16:35:14 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/19 17:17:49 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	clean_table(t_table *table)
 		pthread_mutex_destroy(&table->fork[i]);
 		i++;
 	}
+	free(table->fork);
 }
 
 void	clean(t_philo *philo)
 {
 	clean_table(philo->table);
-	free(philo->table->fork);
 	free(philo);
 }
