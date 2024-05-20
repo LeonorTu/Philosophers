@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 15:54:18 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/17 20:44:30 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/20 13:12:04 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	init_philos(t_philo *philo, t_table *table)
 	{
 		philo[i].id = i + 1;
 		philo[i].meals_eaten = 0;
+		philo[i].fork_r = 0;
+		philo[i].fork_l = 0;
 		philo[i].start_time = get_current_time();
 		philo[i].last_meal = get_current_time();
 		philo[i].table = table;

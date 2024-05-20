@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:07:48 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/19 17:10:10 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/20 13:10:11 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ typedef struct s_philo
 {
 	int				id;
 	int				meals_eaten;
+	int				fork_r;
+	int				fork_l;
 	size_t			start_time;
 	size_t			last_meal;
 	t_table			*table;
@@ -61,8 +63,8 @@ size_t	get_current_time(void);
 void	*philo_routine(void *arg);
 void	*table_monitor(void *arg);
 int		ft_eat(t_philo *philo);
-void	ft_think(t_philo *philo);
-void	ft_sleep(t_philo *philo);
+int		ft_think(t_philo *philo);
+int		ft_sleep(t_philo *philo);
 int		ft_usleep(t_philo *philo, size_t sleep);
 int		check_end(t_philo *philo);
 

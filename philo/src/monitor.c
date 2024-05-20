@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 13:03:04 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/19 16:51:11 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/20 12:27:53 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	philo_dead(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->table->meal_lock);
 		if (get_current_time() - philo[i].last_meal \
-		>= philo->table->time_to_die)
+		> philo->table->time_to_die)
 		{
 			print_msg(&philo[i], "died");
 			pthread_mutex_lock(&philo->table->end_lock);

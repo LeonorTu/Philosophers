@@ -6,7 +6,7 @@
 /*   By: jtu <jtu@student.hive.fi>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 16:08:58 by jtu               #+#    #+#             */
-/*   Updated: 2024/05/19 17:10:42 by jtu              ###   ########.fr       */
+/*   Updated: 2024/05/20 11:02:57 by jtu              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_usleep(t_philo *philo, size_t sleep)
 	while ((get_current_time() - start) < sleep)
 	{
 		if (check_end(philo))
-			return (0);
+			return (1);
 		usleep(500);
 	}
 	return (0);
